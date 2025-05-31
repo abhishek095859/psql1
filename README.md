@@ -1,5 +1,285 @@
 # psql1
 
+C:\Users\Minfy>psql --version
+psql (PostgreSQL) 17.5
+
+C:\Users\Minfy>psql -U postgres
+Password for user postgres:
+
+psql (17.5)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# CREATE USER uni_admin WITH PASSWORD '1234567890'
+postgres-# CREATE USER uni_admin WITH PASSWORD '1234567890';
+ERROR:  syntax error at or near "CREATE"
+LINE 2: CREATE USER uni_admin WITH PASSWORD '1234567890';
+        ^
+postgres=# \q
+
+C:\Users\Minfy>psql -U postgres
+Password for user postgres:
+
+psql (17.5)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# CREATE USER uni_admin WITH PASSWORD '1234567890';
+CREATE ROLE
+postgres=# CREATE DATABASE uni_db OWNER uni_admin;
+CREATE DATABASE
+postgres=# GRANT ALL PRIVILEGES ON DATABASE uni_db TO uni_admin;
+GRANT
+postgres=# //q
+postgres-# \q
+
+C:\Users\Minfy>psql -U university_admin -d university_db
+Password for user university_admin:
+
+psql: error: connection to server at "localhost" (::1), port 5432 failed: FATAL:  password authentication failed for user "university_admin"
+
+C:\Users\Minfy>psql -U university_admin -d university_db
+Password for user university_admin:
+
+psql: error: connection to server at "localhost" (::1), port 5432 failed: FATAL:  password authentication failed for user "university_admin"
+
+C:\Users\Minfy> psql -U postgres
+Password for user postgres:
+
+psql (17.5)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# ALTER USER uni_admin WITH PASSWORD '12345';
+ALTER ROLE
+postgres=# GRANT ALL PRIVILEDGES ON DATABASE uni_db TO uni_admin;
+ERROR:  syntax error at or near "PRIVILEDGES"
+LINE 1: GRANT ALL PRIVILEDGES ON DATABASE uni_db TO uni_admin;
+                  ^
+postgres=# GRANT ALL PRIVILEGES ON DATABASE uni_db TO uni_admin;
+GRANT
+postgres=# /q
+postgres-# \q
+
+C:\Users\Minfy>psql -U uni_admin -d uni_db;
+Password for user uni_admin:
+
+psql: error: connection to server at "localhost" (::1), port 5432 failed: FATAL:  database "uni_db;" does not exist
+
+C:\Users\Minfy>psql -U uni_admin -d uni_db
+Password for user uni_admin:
+
+psql (17.5)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+uni_db=> CREATE TABLE students(
+uni_db(>
+uni_db(>
+uni_db(>
+uni_db(> \\q
+invalid command \
+Try \? for help.
+uni_db(> \q
+
+C:\Users\Minfy>psql -U uni_admin -d uni_db
+Password for user uni_admin:
+
+psql (17.5)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+uni_db=> CREATE TABLE students(
+uni_db(> student_id INTEGER,
+uni_db(> first_name VARCHAR(50),
+uni_db(> last_name VARCHAR(50),
+uni_db(> email VARCHAR(50),
+uni_db(> dob DATE);
+CREATE TABLE
+uni_db=> \\dt
+invalid command \
+Try \? for help.
+uni_db=> \\d
+invalid command \
+Try \? for help.
+uni_db=> \d
+           List of relations
+ Schema |   Name   | Type  |   Owner
+--------+----------+-------+-----------
+ public | students | table | uni_admin
+(1 row)
+
+
+uni_db=> \dt
+           List of relations
+ Schema |   Name   | Type  |   Owner
+--------+----------+-------+-----------
+ public | students | table | uni_admin
+(1 row)
+
+
+uni_db=> ALTER TABLE students ADD COLUMN enrollment_date DATE
+uni_db-> ALTER TABLE students ADD COLUMN enrollment_date DATE;
+ERROR:  syntax error at or near "ALTER"
+LINE 2: ALTER TABLE students ADD COLUMN enrollment_date DATE;
+        ^
+uni_db=> ALTER TABLE students ADD COLUMN enrollment_date DATE;
+ALTER TABLE
+uni_db=> ALTER TABLE students DROP COLUMN enrollment_date DATE;
+ERROR:  syntax error at or near "DATE"
+LINE 1: ALTER TABLE students DROP COLUMN enrollment_date DATE;
+                                                         ^
+uni_db=> ALTER TABLE students DROP COLUMN enrollment_date;
+ALTER TABLE
+uni_db=> ALTER TABLE students ALTER COLUMN email TYPE VARCHAR(150);
+ALTER TABLE
+uni_db=> ALTER TABLE students ADD CONSTRAINT unique_email UNIQUE (email);
+ALTER TABLE
+uni_db=> ALTER TABLE students ADD COLUMN phone_number TYPE VARCHAR(15);
+ERROR:  syntax error at or near "VARCHAR"
+LINE 1: ALTER TABLE students ADD COLUMN phone_number TYPE VARCHAR(15...
+                                                          ^
+uni_db=> ALTER TABLE students ADD COLUMN phone_number VARCHAR(15);
+ALTER TABLE
+uni_db=> ALTER TABLE students DROP COLUMN phone_number VARCHAR(15);
+ERROR:  syntax error at or near "VARCHAR"
+LINE 1: ALTER TABLE students DROP COLUMN phone_number VARCHAR(15);
+                                                      ^
+uni_db=> ALTER TABLE students DROP COLUMN phone_numbER;
+ALTER TABLE
+uni_db=> ALTER TABLE students DROP COLUMN phone_number;
+ERROR:  column "phone_number" of relation "students" does not exist
+uni_db=> ALTER TABLE students DROP COLUMN phone_number;
+ERROR:  column "phone_number" of relation "students" does not exist
+uni_db=> INSERT INTO students(student_id,first_name,last_name,email,dob)
+uni_db-> VALUES(1,'Lithin','varma','lithin.varma@gmail.com','2003-09-15');
+INSERT 0 1
+uni_db=> VALUES(2,'Madhu','kumar','madhu.kumar@gmail.com','2003-07-16');
+ column1 | column2 | column3 |        column4        |  column5
+---------+---------+---------+-----------------------+------------
+       2 | Madhu   | kumar   | madhu.kumar@gmail.com | 2003-07-16
+(1 row)
+
+
+uni_db=> INSERT INTO students(student_id,first_name,last_name,email,dob)
+uni_db-> VALUES(3,'john','fancis','john.francis@gmail.com','2003-10-10'),
+uni_db-> VALUES(4,'abhi','raj','abhi@gmail.com','2003-11-20'),
+uni_db-> VALUES(5,'rahul','kumar','rahul@gmail.com','2003-12-28');
+ERROR:  syntax error at or near "VALUES"
+LINE 3: VALUES(4,'abhi','raj','abhi@gmail.com','2003-11-20'),
+        ^
+uni_db=> VALUES(4,'abhi','raj','abhi@gmail.com','2003-11-20');
+ column1 | column2 | column3 |    column4     |  column5
+---------+---------+---------+----------------+------------
+       4 | abhi    | raj     | abhi@gmail.com | 2003-11-20
+(1 row)
+
+
+uni_db=> DELETE FROM students;
+DELETE 1
+uni_db=> SELECT * FROM students;
+ student_id | first_name | last_name | email | dob
+------------+------------+-----------+-------+-----
+(0 rows)
+
+
+uni_db=> INSERT INTO students(student_id,first_name,last_name,email,dob)
+uni_db-> VALUES(1,'rahul','chow','rahul.chow@gmail.com','2003-12-10'),
+uni_db-> VALUES(2,'Lithin','varma','lithin.varma@gmail.com','2003-09-15'),
+uni_db-> VALUES(3,'john','francis','john.francis@gmail.com','2002-12-04'),
+uni_db-> VALUES(4,'madhu','kumar','madhu.kumar@gmail.com','2002-06-30'),
+uni_db-> VALUES(5,'Jeet','singh','jeet.singh@gmail.com','2003-07-14');
+ERROR:  syntax error at or near "VALUES"
+LINE 3: VALUES(2,'Lithin','varma','lithin.varma@gmail.com','2003-09-...
+        ^
+uni_db=> INSERT INTO students(student_id, first_name, last_name, email, dob)
+uni_db-> VALUES
+uni_db->   (1, 'rahul', 'chow', 'rahul.chow@gmail.com', '2003-12-10'),
+uni_db->   (2, 'Lithin', 'varma', 'lithin.varma@gmail.com', '2003-09-15'),
+uni_db->   (3, 'john', 'francis', 'john.francis@gmail.com', '2002-12-04'),
+uni_db->   (4, 'madhu', 'kumar', 'madhu.kumar@gmail.com', '2002-06-30'),
+uni_db->   (5, 'Jeet', 'singh', 'jeet.singh@gmail.com', '2003-07-14');
+INSERT 0 5
+uni_db=> SELECT * FROM students;
+ student_id | first_name | last_name |         email          |    dob
+------------+------------+-----------+------------------------+------------
+          1 | rahul      | chow      | rahul.chow@gmail.com   | 2003-12-10
+          2 | Lithin     | varma     | lithin.varma@gmail.com | 2003-09-15
+          3 | john       | francis   | john.francis@gmail.com | 2002-12-04
+          4 | madhu      | kumar     | madhu.kumar@gmail.com  | 2002-06-30
+          5 | Jeet       | singh     | jeet.singh@gmail.com   | 2003-07-14
+(5 rows)
+
+
+uni_db=> INSERT INTO students(student_id, first_name, last_name, dob)
+uni_db-> VALUES(6,'abhi','kumar','2002-02-10');
+INSERT 0 1
+uni_db=> SELECT * FROM students;
+ student_id | first_name | last_name |         email          |    dob
+------------+------------+-----------+------------------------+------------
+          1 | rahul      | chow      | rahul.chow@gmail.com   | 2003-12-10
+          2 | Lithin     | varma     | lithin.varma@gmail.com | 2003-09-15
+          3 | john       | francis   | john.francis@gmail.com | 2002-12-04
+          4 | madhu      | kumar     | madhu.kumar@gmail.com  | 2002-06-30
+          5 | Jeet       | singh     | jeet.singh@gmail.com   | 2003-07-14
+          6 | abhi       | kumar     |                        | 2002-02-10
+(6 rows)
+
+
+uni_db=> SELECT * FROM student
+uni_db-> WHERE student_id=2;
+ERROR:  relation "student" does not exist
+LINE 1: SELECT * FROM student
+                      ^
+uni_db=> SELECT * FROM student,
+uni_db-> WHERE student_id=2;
+ERROR:  syntax error at or near "WHERE"
+LINE 2: WHERE student_id=2;
+        ^
+uni_db=> SELECT * FROM student WHERE student_id=2;
+ERROR:  relation "student" does not exist
+LINE 1: SELECT * FROM student WHERE student_id=2;
+                      ^
+uni_db=> SELECT * FROM students WHERE student_id=2;
+ student_id | first_name | last_name |         email          |    dob
+------------+------------+-----------+------------------------+------------
+          2 | Lithin     | varma     | lithin.varma@gmail.com | 2003-09-15
+(1 row)
+
+
+uni_db=> SELECT * FROM students WHERE dob>'2003-01-01';
+ student_id | first_name | last_name |         email          |    dob
+------------+------------+-----------+------------------------+------------
+          1 | rahul      | chow      | rahul.chow@gmail.com   | 2003-12-10
+          2 | Lithin     | varma     | lithin.varma@gmail.com | 2003-09-15
+          5 | Jeet       | singh     | jeet.singh@gmail.com   | 2003-07-14
+(3 rows)
+
+
+uni_db=> SELECT * FROM students WHERE dob<'2003-01-01';
+ student_id | first_name | last_name |         email          |    dob
+------------+------------+-----------+------------------------+------------
+          3 | john       | francis   | john.francis@gmail.com | 2002-12-04
+          4 | madhu      | kumar     | madhu.kumar@gmail.com  | 2002-06-30
+          6 | abhi       | kumar     |                        | 2002-02-10
+(3 rows)
+
+
+uni_db=> SELECT * FROM students WHERE first_name LIKE 'B%' OR first_name LIKE 'C%';
+ student_id | first_name | last_name | email | dob
+------------+------------+-----------+-------+-----
+(0 rows)
+
 psql (17.5)
 WARNING: Console code page (437) differs from Windows code page (1252)
          8-bit characters might not work correctly. See psql reference
